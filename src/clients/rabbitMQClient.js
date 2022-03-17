@@ -1,16 +1,14 @@
 const { connect: connectRabbitMQ  } = require('amqplib');
 const { logger } = require("../utils/logger");
 
+const { BROKER_PASSWORD, BROKER_USER, BROKER_HOST } = process.env
+
 let channel;
 async function connect() {
   try {
     logger.info('[QUEUE] Trying to connect no RABBITMQ Broker');
 
-    const password = 'password'
-    const user = 'user'
-    const host = 'host'
-
-    const conn = await connectRabbitMQ(`amqp://${user}:${password}@${host}`);
+    const conn = await connectRabbitMQ(`amqp://${BROKER_USER}:${BROKER_PASSWORD}@${BROKER_HOST}`);
     channel = await conn.createChannel();
 
     listenerSync(channel);
