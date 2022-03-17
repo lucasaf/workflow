@@ -1,5 +1,5 @@
 const { connect: connectRabbitMQ  } = require('amqplib');
-const { logger } = require("./utils/logger");
+const { logger } = require("../utils/logger");
 
 let channel;
 async function connect() {
@@ -34,7 +34,7 @@ function listenerSync(channel){
     // sendMessage('flowbuild', 'message from WF teste')
 
     channel.consume('flowbuild', (message) => {
-      console.log(message.content.toString())
+      logger.info('[QUEUE] consume: ' + message.content.toString())
       channel.ack(message);
     });
   }
