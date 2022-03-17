@@ -34,9 +34,13 @@ const activityManagerListener = async (activityManager) => {
 
   const topic = 'flowbuild';
   const message = {
-    processId: activityManager._process_id,
-    activityManagerId: activityManager._id,
-    status: activityManager._status,
+    input: {
+      activityManagerId: activityManager._id,
+      processId: activityManager._process_id,
+      ...activityManager._props.result,
+    },
+    action: activityManager._props.action,
+    schema: activityManager._parameters
   };
 
   sendMessage(topic, JSON.stringify(message))
