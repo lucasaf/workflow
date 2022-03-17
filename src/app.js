@@ -17,6 +17,7 @@ const listeners = require("./utils/engineListener");
 const { db } = require("./utils/db");
 const { jwtSecret } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
+const { connectBroker } = require("./clients/rabbitMQClient");
 
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
@@ -33,6 +34,7 @@ const startServer = (port) => {
     cockpitService.setDbConnection(db);
   }
   setCustomNodes();
+  connectBroker()
 
   listeners.activateNotifiers(engine);
 
