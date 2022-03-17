@@ -48,12 +48,13 @@
     "koa-logger": "^3.2.1",
     "koa-logger-winston": "0.0.2",
     "koa2-cors": "^2.0.6",
-    "nanoid": "^3.1.30",
+    "nanoid": "^3.3.1",
     "pg": "^8.7.1",
     "swagger2": "^2.0.0",
     "swagger2-koa": "^2.0.0",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "amqplib": "^0.8.0"
   },
   "keywords": [],
   "author": "FDTE-DSD",
