@@ -1,3 +1,4 @@
+const { sendMessage } = require("../clients/rabbitMQClient");
 const { logger } = require("./logger");
 
 const processStateListener = async (processState) => {
@@ -28,7 +29,17 @@ const activityManagerListener = async (activityManager) => {
       status: activityManager._status,
     };
   
-    await sendMessage(topic, message); */
+    await sendMessage(topic, message); 
+  */
+
+  const topic = 'flowbuild';
+  const message = {
+    processId: activityManager._process_id,
+    activityManagerId: activityManager._id,
+    status: activityManager._status,
+  };
+
+  sendMessage(topic, JSON.stringify(message))
 
   logger.info(`>>> POSTED AM ON PROCESS TOPIC: ${activityManager._process_id}`);
 };
