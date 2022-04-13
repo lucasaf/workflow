@@ -2,6 +2,8 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
+const noCache = require('koa-no-cache');
+const helmet = require('koa-helmet');
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -44,12 +46,25 @@ const startServer = (port) => {
   engine.setCrypto(crypto);
 
   const app = new Koa();
+  const whiteList = ["http://ec2-3-239-164-204.compute-1.amazonaws.com:3000/"];
   const corsOptions = {
-    origin: "*",
+    origin: whiteList,
     allowMethods: ["GET", "POST", "DELETE"],
-    allowHeaders: ["Content-Type", "Authorization", "Accept", "x-duration", "x-secret"],
+    allowHeaders: [
+      "Content-Type", 
+      "Authorization", 
+      "Accept", 
+      "x-duration", 
+      "x-secret"
+    ],
   };
   app.use(cors(corsOptions));
+  app.use(helmet());
+
+  app.use(noCache({
+    global: true
+  }));
+
   app.use(setPersist(db));
 
   app.use(koaLogger(_log.logger));
@@ -72,6 +87,10 @@ const startServer = (port) => {
       .prefix("/cockpit")
       .routes()
   );
+
+  app.use(noCache({
+    global: true
+  }));
 
   return app.listen(port, function () {
     _log.logger.info("Flowbuild API Server running");
