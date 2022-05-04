@@ -22,7 +22,7 @@ async function connect() {
 
 function sendMessage(queue, message) {
   if (channel) {
-    channel.publish(queue, 'flow', Buffer.from(message))
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
   }
   logger.info('[QUEUE] Called sendMessage');
 }
